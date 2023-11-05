@@ -1,0 +1,52 @@
+[
+  {
+    "workoutId": 0,
+    "name": "Pushup",
+    "description": "A pushup is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms."
+  },
+  {
+    "workoutId": 1,
+    "name": "Squats",
+    "description": "The squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle, hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body."
+  },
+  {
+    "workoutId": 2,
+    "name": "Hamstring Stretch",
+    "description": "This stretch focuses on the hamstrings, helping to improve flexibility and reduce the risk of injury."
+  },
+  {
+    "workoutId": 3,
+    "name": "Cat-Cow Stretch",
+    "description": "The cat-cow stretch is a yoga pose that helps improve spinal flexibility and reduce tension in the back."
+  },
+  {
+    "workoutId": 4,
+    "name": "Hip Flexor Stretch",
+    "description": "Stretching the hip flexors can alleviate lower back pain and improve hip mobility."
+  },
+  {
+    "workoutId": 5,
+    "name": "Shoulder Stretch",
+    "description": "This stretch targets the shoulders and upper back, helping to relieve tension and improve posture."
+  },
+  {
+    "workoutId": 6,
+    "name": "Running",
+    "description": "Running is a high-intensity cardio exercise that can help improve cardiovascular fitness and burn calories."
+  },
+  {
+    "workoutId": 7,
+    "name": "Jumping Jacks",
+    "description": "Jumping jacks are a simple but effective cardio workout that also improves coordination."
+  },
+  {
+    "workoutId": 8,
+    "name": "Cycling",
+    "description": "Cycling is a low-impact cardio exercise that's great for improving leg strength and endurance."
+  },
+  {
+    "workoutId": 9,
+    "name": "High-Intensity Interval Training (HIIT)",
+    "description": "HIIT involves short bursts of intense exercise followed by brief rest periods. It's an efficient way to improve cardiovascular fitness and burn calories."
+  }
+]
