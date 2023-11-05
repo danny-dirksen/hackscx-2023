@@ -37,6 +37,8 @@ class Tracker {
   }
   
   async tick() {
+    var slider = document.getElementById("myRange");
+    this.video.playbackRate = slider.value / 100;
     this.poses = await detector.estimatePoses(this.video);
     if (this.referenceTracker && this.referenceTracker.poses) {
       console.log(this.poses);
