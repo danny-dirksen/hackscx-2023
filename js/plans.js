@@ -5,7 +5,7 @@ function planCard(plan, workouts) {
   const planWorkouts = workoutIds.map(workoutId => workouts[workoutId]);
   return `
     <div class="plan-card">
-      <img src="/data/workout-images/${planId}.jpg" alt="${plan.name}" />
+      <img src="/data/plan-images/${planId}.png" alt="${plan.name}" />
       <div class="plan-card-content">
         <div class="plan-card-title">${name}</div>
         <div>${description}</div>

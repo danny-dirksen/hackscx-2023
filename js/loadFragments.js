@@ -9,4 +9,3 @@ if (header) {
     })
     .catch(error => console.error(error));
 }
-
