@@ -39,6 +39,8 @@ class Tracker {
   async tick() {
     this.poses = await detector.estimatePoses(this.video);
     if (this.referenceTracker && this.referenceTracker.poses) {
+      console.log(this.poses);
+      console.log(this.referenceTracker.poses)
       this.error = comparePoses(this.poses, this.referenceTracker.poses);
       console.log(this.error);
     }
