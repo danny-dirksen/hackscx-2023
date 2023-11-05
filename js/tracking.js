@@ -18,6 +18,9 @@ async function estimatePose() {
   const poses = await detector.estimatePoses(video);
   poseDrawer.draw(poses);
   // console.log(poses);
+  const referencePoses = poses;
+  const comparisonResult = comparePoses(poses, referencePoses, MIN_SCORE);
+  //console.log(comparisonResult);
   requestAnimationFrame(estimatePose); // Continuously estimate poses
 }
 
