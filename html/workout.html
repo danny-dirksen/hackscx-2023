@@ -62,11 +62,12 @@ const runMoveNet = async () => {
 //const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
 const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});
 async function estimatePose() {
+  
 const poses = await detector.estimatePoses(video);
 console.log(poses);
 const referencePoses = poses;
 
-const comparisonResult = comparePoses(poses, poses);
+const comparisonResult = comparePoses(poses, poses, MIN_SCORE);
 console.log(comparisonResult);
 
 // Draw your poses on the overlayCanvas (example: connecting body parts with lines).
@@ -170,11 +171,6 @@ requestAnimationFrame(estimatePose); // Continuously estimate poses
 estimatePose();
 }
 
-<<<<<<< HEAD
-    runPosenet();
-  </script>
-  <script src="/js/loadFragments.js"></script>
-=======
 
 
 
@@ -185,6 +181,5 @@ return new Promise(resolve => setTimeout(resolve, ms));
 
 </script>
 <script src="/js/loadFragments.js"></script>
->>>>>>> fde674ecf430d1d97aa9ad7e5bc8c84b95d6d3e7
 </body>
 </html>
