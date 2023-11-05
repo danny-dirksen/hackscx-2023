@@ -20,7 +20,7 @@ async function estimatePose() {
   // console.log(poses);
   const referencePoses = poses;
   const comparisonResult = comparePoses(poses, referencePoses, MIN_SCORE);
-  //console.log(comparisonResult);
+  console.log(comparisonResult);
   requestAnimationFrame(estimatePose); // Continuously estimate poses
 }
 
