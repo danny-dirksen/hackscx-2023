@@ -1,4 +1,4 @@
-var MIN_SCORE = 0.4;
+var MIN_SCORE = 0.3;
 
 class PosDrawer {
   constructor(video, canvas) {

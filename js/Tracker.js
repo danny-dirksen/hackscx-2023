@@ -1,6 +1,6 @@
 // All trackers share the same detector. Initialized the first time its used.
 let detector = null;
-const smooth = 0;
+const smooth = 15;
 
 class Tracker {
   // Creates tracker and starts tracking.
@@ -51,19 +51,19 @@ class Tracker {
       console.log(this.error);
       // Get score from webcam error
       let text = document.getElementById("comparison-result");
-      if(this.error >= 0 && this.error < 0.2){
+      if(this.error >= 0 && this.error < 0.4){
         text.textContent = "Bad";
         text.style.color = "red";
-      } else if(this.error >= 0.2 && this.error < 0.4){
+      } else if(this.error >= 0.4 && this.error < 0.7){
         text.textContent = "Ok";
         text.style.color = "lightred";
-      } else if(this.error >= 0.4 && this.error < 0.6){
+      } else if(this.error >= 0.7 && this.error < 0.85){
         text.textContent = "Good";
         text.style.color = "white";
-      } else if(this.error >= 0.6 && this.error < 0.8){
+      } else if(this.error >= 0.85 && this.error < 0.95){
         text.textContent = "Very Good";
         text.style.color = "lightgreen";
-      } else if(this.error >= 0.8 && this.error <= 1.0){
+      } else if(this.error >= 0.95 && this.error <= 1.0){
         text.textContent = "Prefect";
         text.style.color = "green";
       }
