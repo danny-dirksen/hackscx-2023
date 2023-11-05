@@ -27,7 +27,7 @@ console.log('Start');
 
 // Sleep for 2 seconds
 await sleep(2000);
-//runPosenet();
+runMoveNet();
 console.log('End');
 }
 
@@ -170,8 +170,21 @@ requestAnimationFrame(estimatePose); // Continuously estimate poses
 estimatePose();
 }
 
+<<<<<<< HEAD
     runPosenet();
   </script>
   <script src="/js/loadFragments.js"></script>
+=======
+
+
+
+function sleep(ms) {
+return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+</script>
+<script src="/js/loadFragments.js"></script>
+>>>>>>> fde674ecf430d1d97aa9ad7e5bc8c84b95d6d3e7
 </body>
 </html>
