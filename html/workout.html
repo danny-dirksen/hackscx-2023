@@ -15,11 +15,16 @@
 <body>
   <header></header>
   <div style="position:relative">
-    <video autoplay="true" id="videoElement"></video>
-    <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+    <video autoplay="true" id="cam-video"></video>
+    <canvas id="cam-overlay-cvs" style="position: absolute; top: 0; left: 0;"></canvas>
+  </div>
+  <div style="position:relative">
+    <video autoplay="true" controls id="ref-video" src="/data/workout-videos/0.mp4"></video>
+    <canvas id="ref-overlay-cvs" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
   </div>
   <script src="/js/PoseDrawer.js"></script>
-  <script src="/js/tracking.js"></script>
+  <script src="/js/Tracker.js"></script>
+  <script src="/js/workout.js"></script>
   <script src="/js/loadFragments.js"></script>
 </body>
 
