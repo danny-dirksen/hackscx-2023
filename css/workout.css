@@ -1,0 +1,17 @@
+.side-by-side {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tracked-video-container {
+  position:relative;
+  height: fit-content;
+}
+
+.overlay-cvs {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

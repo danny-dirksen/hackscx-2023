@@ -7,7 +7,6 @@ class Tracker {
     this.video = video;
     this.canvas = canvas;
     this.draw = draw;
-    console.log(this.video.id)
   }
 
   waitForVideoToLoad() {
@@ -36,9 +35,9 @@ class Tracker {
   }
   
   async tick() {
-    const poses = await detector.estimatePoses(this.video);
+    this.poses = await detector.estimatePoses(this.video);
     if (this.draw) {
-      this.poseDrawer.draw(poses);
+      this.poseDrawer.draw(this.poses);
     }
     requestAnimationFrame(this.tick.bind(this)); // Continuously estimate poses
   }
