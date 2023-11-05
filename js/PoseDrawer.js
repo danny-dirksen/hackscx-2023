@@ -1,4 +1,5 @@
-var MIN_SCORE = 0.3;
+const PI2 = Math.PI * 2;
+const SAMPLE_EDGE_ERRORS = EDGES.map(_ => 0);
 
 class PosDrawer {
   constructor(video, canvas) {
@@ -8,113 +9,87 @@ class PosDrawer {
     this.ctx = canvas.getContext('2d');
   }
 
-  draw(poses) {
+  draw(poses, edgeErrors=SAMPLE_EDGE_ERRORS) {
     const ctx = this.ctx;
-    const radius = 3;
-    const pi2 = Math.PI * 2;
-
     // Don't draw pos if context has not yet been set.
     if (!ctx) return;
     // Draw your poses on the canvas (example: connecting body parts with lines).
     ctx.clearRect(0, 0, this.width, this.height);
     for (const pose of poses) {
-      const keypoints = pose.keypoints;
-      for (var i = 0; i < 1; i++) {
-        ctx.fillStyle = '#00a308';
-        ctx.strokeStyle = '#FF0000'; // Red color
-        ctx.lineWidth = 3; // 3 pixels wide
-        ctx.beginPath();
-        // Draw joint circles
-        for (var j = 0; j < keypoints.length; j++) {
-          if (keypoints[j].score >= MIN_SCORE) {
-            ctx.moveTo(keypoints[j].x, keypoints[j].y);
-            ctx.arc( keypoints[j].x, keypoints[j].y, radius, 0, pi2 );
-          }
-        }
-        // Draw connecting joints
-        // nose to left eye
-        if (keypoints[0].score >= MIN_SCORE && keypoints[1].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[0].x, keypoints[0].y);
-          ctx.lineTo(keypoints[1].x, keypoints[1].y);
-        }
-        // nose to right eye
-        if (keypoints[0].score >= MIN_SCORE && keypoints[2].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[0].x, keypoints[0].y);
-          ctx.lineTo(keypoints[2].x, keypoints[2].y);
-        }
-        // left eye to left ear
-        if (keypoints[1].score >= MIN_SCORE && keypoints[3].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[1].x, keypoints[1].y);
-          ctx.lineTo(keypoints[3].x, keypoints[3].y);
-        }
-        // right eye to right ear
-        if (keypoints[2].score >= MIN_SCORE && keypoints[4].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[2].x, keypoints[2].y);
-          ctx.lineTo(keypoints[4].x, keypoints[4].y);
-        }
-        // left shoulder to right shoulder
-        if (keypoints[5].score >= MIN_SCORE && keypoints[6].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[5].x, keypoints[5].y);
-          ctx.lineTo(keypoints[6].x, keypoints[6].y);
-        }
-        // left shoulder to left elbow
-        if (keypoints[5].score >= MIN_SCORE && keypoints[7].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[5].x, keypoints[5].y);
-          ctx.lineTo(keypoints[7].x, keypoints[7].y);
-        }
-        // right shoulder to right elbow
-        if (keypoints[6].score >= MIN_SCORE && keypoints[8].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[6].x, keypoints[6].y);
-          ctx.lineTo(keypoints[8].x, keypoints[8].y);
-        }
-        // left elbow to left wrist
-        if (keypoints[7].score >= MIN_SCORE && keypoints[9].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[7].x, keypoints[7].y);
-          ctx.lineTo(keypoints[9].x, keypoints[9].y);
-        }
-        // right elbow to right wrist
-        if (keypoints[8].score >= MIN_SCORE && keypoints[10].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[8].x, keypoints[8].y);
-          ctx.lineTo(keypoints[10].x, keypoints[10].y);
-        }
-        // left shoulder to left hip
-        if (keypoints[5].score >= MIN_SCORE && keypoints[11].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[5].x, keypoints[5].y);
-          ctx.lineTo(keypoints[11].x, keypoints[11].y);
-        }
-        // right shoulder to right hip
-        if (keypoints[6].score >= MIN_SCORE && keypoints[12].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[6].x, keypoints[6].y);
-          ctx.lineTo(keypoints[12].x, keypoints[12].y);
-        }
-        // left hip and right hip
-        if (keypoints[11].score >= MIN_SCORE && keypoints[12].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[11].x, keypoints[11].y);
-          ctx.lineTo(keypoints[12].x, keypoints[12].y);
-        }
-        // left hip to left knee
-        if (keypoints[11].score >= MIN_SCORE && keypoints[13].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[11].x, keypoints[11].y);
-          ctx.lineTo(keypoints[13].x, keypoints[13].y);
-        }
-        // right hip to right knee
-        if (keypoints[12].score >= MIN_SCORE && keypoints[14].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[12].x, keypoints[12].y);
-          ctx.lineTo(keypoints[14].x, keypoints[14].y);
-        }
-        // left knee to left ankle
-        if (keypoints[13].score >= MIN_SCORE && keypoints[15].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[13].x, keypoints[13].y);
-          ctx.lineTo(keypoints[15].x, keypoints[15].y);
-        }
-        // right knee to right ankle
-        if (keypoints[14].score >= MIN_SCORE && keypoints[16].score >= MIN_SCORE) {
-          ctx.moveTo(keypoints[14].x, keypoints[14].y);
-          ctx.lineTo(keypoints[16].x, keypoints[16].y);
-        }
-        ctx.stroke();
-        ctx.fill();
+      this.drawPos(pose, edgeErrors);
+    }
+  }
+
+  drawPos(pose, edgeErrors) {
+    edgeErrors = edgeErrors || SAMPLE_EDGE_ERRORS;
+    const radius = 3;
+    const keypoints = pose.keypoints;
+    const ctx = this.ctx;
+    // Draw connecting lines
+    for (let i = 0; i < EDGES.length; i++) {
+      const p1 = keypoints[EDGES[i][0]];
+      const p2 = keypoints[EDGES[i][1]];
+      const error = edgeErrors[i];
+      if (p1.score >= MIN_SCORE && p2.score >= MIN_SCORE) {
+        const [color, width] = this.styleFromError(error);
+        this.line(ctx, p1, p2, color, width);
       }
     }
+    // Draw joint circles
+    for (var point of keypoints) {
+      if (point.score >= MIN_SCORE) {
+        this.circle(ctx, point, radius, "white", "white", 2);
+      }
+    }
+  }
+
+  /**
+   * Draws a line between two points.
+   * @param {RenderingContext} ctx 
+   * @param {Point} p1 
+   * @param {Point} p2 
+   * @param {string} color 
+   * @param {number} width 
+   */
+  line(ctx, p1, p2, color="red", width=3) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.stroke();
+  }
+
+  /**
+   * Get the color and width for a line based on the error.
+   * @param {number} error 
+   * @returns [color (string), width (number)]
+   */
+  styleFromError(error) {
+    if(error >= 0 && error < 0.4){
+      return ["white", 1];
+    } else if (error >= 0.4 && error < 0.7){
+      return ["pink", 2];
+    } else {
+      return ["red", 3];
+    }
+  }
+
+  /**
+   * Draws a circle at a point.
+   * @param {RenderingContext} ctx 
+   * @param {Point} p 
+   * @param {number} radius 
+   * @param {string} color 
+   * @param {number} width 
+   */
+  circle(ctx, p, radius=3, stroke="red", fill="green", width=3) {
+    ctx.strokeStyle = stroke;
+    ctx.fillStyle = fill;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, radius, 0, PI2);
+    ctx.fill();
+    ctx.stroke();
   }
 }

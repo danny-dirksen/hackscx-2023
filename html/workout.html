@@ -15,38 +15,44 @@
 </head>
 
 <body>
-  <header></header>
-  <div class="side-by-side">
-    <div class="tracked-video-container">
-      <video autoplay="true" id="cam-video"></video>
-      <canvas id="cam-overlay-cvs" class="overlay-cvs"></canvas>
-    </div>
-    <div class="tracked-video-container">
-      <video autoplay="true" controls id="ref-video" src="/data/workout-videos/0.mp4"></video>
-      <canvas id="ref-overlay-cvs" class="overlay-cvs"></canvas>
-      <div class="slidecontainer">
-        <input type="range" min="25" max="200" value="100" class="slider" id="myRange">
+  <div class="layer">
+    <header></header>
+    <main>
+      <div class="side-by-side">
+        <div class="tracked-video-container">
+          <video autoplay id="cam-video"></video>
+          <canvas id="cam-overlay-cvs" class="overlay-cvs"></canvas>
+        </div>
+        <div class="tracked-video-container">
+          <video autoplay controls id="ref-video" src=""></video>
+          <canvas id="ref-overlay-cvs" class="overlay-cvs"></canvas>
+        </div>
       </div>
+    </main>
+  </div>
+  <div id="info-layer" class="layer">
+    <div class="info-overlay">
+      <h3 id="comparison-result">Loading...</h3>
+      <h3>
+      <p>
+        <span id="plan-name" class="label"></span> &rarr; <span id="workout-name"></span>
+      </p>
+        <span class="label">Tips:</span>
+        <ul id="tips-list"></ul>
+      </p>
+      <p>
+        <span class="label">Speed:</span>
+        <select id="speed-select">
+          <option value="0.25">0.25x</option>
+          <option value="0.5">0.5x</option>
+          <option value="1.0" selected>Normal</option>
+          <option value="1.5">1.5x</option>
+          <option value="2.0">2x</option>
+        </select>
+      </p>
     </div>
   </div>
-  <!-- <script>
-    // Get the video elements by their IDs
-    const camVideo = document.getElementById("cam-video");
-    const refVideo = document.getElementById("ref-video");
-
-    // Get the position of the cam-video
-    const camVideoPosition = camVideo.getBoundingClientRect();
-    const camVideoTopLeftX = camVideoPosition.left;
-    const camVideoTopLeftY = camVideoPosition.top;
-
-    // Get the position of the ref-video
-    const refVideoPosition = refVideo.getBoundingClientRect();
-    const refVideoTopLeftX = refVideoPosition.left;
-    const refVideoTopLeftY = refVideoPosition.top;
-  </script> -->
-  <div class="similarity-container" style="text-align: center">
-    <em id="comparison-result" style="font-size: 40px">Something</em>
-  </div>
+  <script src="/js/edges.js"></script>
   <script src="/js/PoseDrawer.js"></script>
   <script src="/js/Tracker.js"></script>
   <script src="/js/workout.js"></script>
