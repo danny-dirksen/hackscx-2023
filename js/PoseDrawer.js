@@ -10,6 +10,8 @@ class PosDrawer {
 
   draw(poses) {
     const ctx = this.ctx;
+    const radius = 3;
+    const pi2 = Math.PI * 2;
 
     // Don't draw pos if context has not yet been set.
     if (!ctx) return;
@@ -18,10 +20,18 @@ class PosDrawer {
     for (const pose of poses) {
       const keypoints = pose.keypoints;
       for (var i = 0; i < 1; i++) {
+        ctx.fillStyle = '#00a308';
         ctx.strokeStyle = '#FF0000'; // Red color
         ctx.lineWidth = 3; // 3 pixels wide
-        //ctx.fillRect(keypoints[0].x-5,keypoints[0].y-5,10,10);
         ctx.beginPath();
+        // Draw joint circles
+        for (var j = 0; j < keypoints.length; j++) {
+          if (keypoints[j].score >= MIN_SCORE) {
+            ctx.moveTo(keypoints[j].x, keypoints[j].y);
+            ctx.arc( keypoints[j].x, keypoints[j].y, radius, 0, pi2 );
+          }
+        }
+        // Draw connecting joints
         // nose to left eye
         if (keypoints[0].score >= MIN_SCORE && keypoints[1].score >= MIN_SCORE) {
           ctx.moveTo(keypoints[0].x, keypoints[0].y);
@@ -103,6 +113,7 @@ class PosDrawer {
           ctx.lineTo(keypoints[16].x, keypoints[16].y);
         }
         ctx.stroke();
+        ctx.fill();
       }
     }
   }
