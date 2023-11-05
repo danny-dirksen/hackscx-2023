@@ -2,51 +2,101 @@
   {
     "workoutId": 0,
     "name": "Pushup",
-    "description": "A pushup is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms."
+    "description": "A pushup is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms.",
+    "tips": [
+      "Maintain a straight line from head to heels to ensure proper alignment.",
+      "Place your hands slightly wider than shoulder-width apart for stability.",
+      "Engage your core by tightening your abdominal muscles to protect your lower back."
+    ]
   },
   {
     "workoutId": 1,
     "name": "Squats",
-    "description": "The squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle, hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body."
+    "description": "The squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips and buttocks, quadriceps femoris muscle, hamstrings, as well as strengthening the bones, ligaments and insertion of the tendons throughout the lower body.",
+    "tips": [
+      "Keep your feet shoulder-width apart and toes pointing slightly outward.",
+      "Maintain a straight back and a neutral spine throughout the squat.",
+      "Lower your body by bending your knees and hips, keeping your knees in line with your toes."
+    ]
   },
   {
     "workoutId": 2,
     "name": "Hamstring Stretch",
-    "description": "This stretch focuses on the hamstrings, helping to improve flexibility and reduce the risk of injury."
+    "description": "This stretch focuses on the hamstrings, helping to improve flexibility and reduce the risk of injury.",
+    "tips": [
+      "Sit or stand with your legs extended straight.",
+      "Hinge at your hips and reach for your toes while keeping your back straight.",
+      "Hold the stretch for 15-30 seconds and repeat on both legs."
+    ]    
   },
   {
     "workoutId": 3,
     "name": "Cat-Cow Stretch",
-    "description": "The cat-cow stretch is a yoga pose that helps improve spinal flexibility and reduce tension in the back."
+    "description": "The cat-cow stretch is a yoga pose that helps improve spinal flexibility and reduce tension in the back.",
+    "tips": [
+      "Start on your hands and knees in a tabletop position.",
+      "Inhale as you arch your back (cow pose), and exhale as you round your back (cat pose).",
+      "Repeat this fluid motion for a gentle spine stretch."
+    ]
   },
   {
     "workoutId": 4,
     "name": "Hip Flexor Stretch",
-    "description": "Stretching the hip flexors can alleviate lower back pain and improve hip mobility."
+    "description": "Stretching the hip flexors can alleviate lower back pain and improve hip mobility.",
+    "tips": [
+      "Kneel on one knee and place the other foot in front with a 90-degree bend in the knee.",
+      "Keep your torso upright and gently push your hips forward to feel a stretch in the front of the hip.",
+      "Hold the stretch for 15-30 seconds and repeat on both sides."
+    ]    
   },
   {
     "workoutId": 5,
     "name": "Shoulder Stretch",
-    "description": "This stretch targets the shoulders and upper back, helping to relieve tension and improve posture."
+    "description": "This stretch targets the shoulders and upper back, helping to relieve tension and improve posture.",
+    "tips": [
+      "Stand or sit with a straight back and relaxed shoulders.",
+      "Extend one arm across your chest, gently pulling it with the opposite hand.",
+      "Hold the stretch for 15-30 seconds on each arm, feeling a gentle pull without pain."
+    ]
   },
   {
     "workoutId": 6,
-    "name": "Running",
-    "description": "Running is a high-intensity cardio exercise that can help improve cardiovascular fitness and burn calories."
+    "name": "Jumping Jacks",
+    "description": "Jumping jacks involve jumping with your feet wide apart while simultaneously raising your arms overhead. It's an effective way to elevate your heart rate and improve cardiovascular fitness.",
+    "tips": [
+      "Maintain a steady rhythm and keep your movements controlled to avoid overexertion.",
+      "Land softly on the balls of your feet to reduce impact on your joints.",
+      "Engage your core and breathe rhythmically to maximize the cardio benefits."
+    ]
   },
   {
     "workoutId": 7,
-    "name": "Jumping Jacks",
-    "description": "Jumping jacks are a simple but effective cardio workout that also improves coordination."
+    "name": "High Knees",
+    "description": "Stand in place and march or jog while lifting your knees as high as possible with each step. This exercise helps improve leg strength and coordination while getting your heart rate up.",
+    "tips": [
+      "Focus on lifting your knees as high as comfortably possible with each step.",
+      "Swing your arms in sync with your knee raises to enhance the workout's intensity.",
+      "Keep a brisk and consistent pace to sustain an elevated heart rate."
+    ]
   },
   {
     "workoutId": 8,
-    "name": "Cycling",
-    "description": "Cycling is a low-impact cardio exercise that's great for improving leg strength and endurance."
+    "name": "Mountain Climbers",
+    "description": "Start in a plank position and alternate bringing your knees toward your chest, as if you're climbing a mountain. This exercise works your core and provides a great cardio workout.",
+    "tips": [
+      "Keep your body in a plank position with a straight line from head to heels.",
+      "Alternate bringing your knees toward your chest with controlled and deliberate movements.",
+      "Maintain steady and controlled breathing to optimize your endurance during this exercise."
+    ]
   },
   {
     "workoutId": 9,
-    "name": "High-Intensity Interval Training (HIIT)",
-    "description": "HIIT involves short bursts of intense exercise followed by brief rest periods. It's an efficient way to improve cardiovascular fitness and burn calories."
+    "name": "Burpees",
+    "description": "Burpees involve a combination of squatting, jumping, and push-ups. It's a high-intensity exercise that engages multiple muscle groups and is excellent for cardio conditioning.",
+    "tips": [
+      "Start with a squat, jump up, and transition into a push-up position with good form.",
+      "Explode upward with power during the jump and land with soft knees to reduce impact.",
+      "Perform burpees at a pace that challenges you while maintaining proper technique throughout each repetition."
+    ]
   }
 ]

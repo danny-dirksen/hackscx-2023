@@ -1,14 +1,20 @@
 [
   {
     "planId": 0,
-    "name": "5-Minute Stretch",
-    "description": "Perfect for a quick break from work or a long day of sitting.",
-    "workoutIds": [0, 1, 2, 3]
+    "name": "Loosen Up",
+    "description": "A quick stretch fit for any time of day.",
+    "workoutIds": [2, 5]
   },
   {
     "planId": 1,
-    "name": "1-Hour Cardio",
-    "description": "An intense cardio workout to get your heart pumping.",
-    "workoutIds": [4, 5, 6, 7]
+    "name": "Deep Stretch",
+    "description": "A 5-minute workout perfect for a quick break or an end-of-day cool-down. Thorough enough to get your blood flowing and muscles loosened up.",
+    "workoutIds": [2, 3, 4, 5]
+  },
+  {
+    "planId": 2,
+    "name": "Killer Cardio",
+    "description": "An intense cardio workout to get your heart pumping. Repeat as many times as you'd like to get a longer workout.",
+    "workoutIds": [0, 1, 6, 7, 8, 9]
   }
 ]
