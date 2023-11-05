@@ -1,5 +1,5 @@
 var detector;
-var posDrawer;
+var poseDrawer;
 var video = document.querySelector("#videoElement");
 var canvas = document.querySelector("#overlayCanvas");
 
@@ -16,7 +16,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
 async function estimatePose() {
   const poses = await detector.estimatePoses(video);
-  posDrawer.draw(poses);
+  poseDrawer.draw(poses);
   // console.log(poses);
   requestAnimationFrame(estimatePose); // Continuously estimate poses
 }
@@ -32,7 +32,7 @@ async function init() {
   //const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
   detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER });
   await videoLoad;
-  posDrawer = new PosDrawer(video, canvas);
+  poseDrawer = new PosDrawer(video, canvas);
   estimatePose();
 }
 
