@@ -1,5 +1,6 @@
 // All trackers share the same detector. Initialized the first time its used.
 let detector = null;
+const smooth = 0;
 
 class Tracker {
   // Creates tracker and starts tracking.
@@ -24,8 +25,8 @@ class Tracker {
   }
 
   async startTracking() {
-    //const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
     if (!detector) {
+      //detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
       detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.MoveNet,
         { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER}
@@ -43,7 +44,10 @@ class Tracker {
     if (this.referenceTracker && this.referenceTracker.poses) {
       // console.log(this.poses);
       // console.log(this.referenceTracker.poses)
-      this.error = comparePoses(this.poses, this.referenceTracker.poses);
+      this.error = (this.error*smooth + comparePoses(this.poses, this.referenceTracker.poses))/(smooth+1);
+      if (isNaN(this.error)) {
+        this.error = 0;
+      }
       console.log(this.error);
       // Get score from webcam error
       let text = document.getElementById("comparison-result");
