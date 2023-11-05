@@ -7,7 +7,7 @@ class Tracker {
     this.video = video;
     this.canvas = canvas;
     this.referenceTracker = referenceTracker;
-    this.similarity = 0;
+    this.error = 0;
     this.draw = draw;
   }
 
@@ -41,10 +41,10 @@ class Tracker {
     this.video.playbackRate = slider.value / 100;
     this.poses = await detector.estimatePoses(this.video);
     if (this.referenceTracker && this.referenceTracker.poses) {
-      console.log(this.poses);
-      console.log(this.referenceTracker.poses)
-      this.similarity = comparePoses(this.poses, this.referenceTracker.poses);
-      console.log(this.similarity);
+      // console.log(this.poses);
+      // console.log(this.referenceTracker.poses)
+      this.error = comparePoses(this.poses, this.referenceTracker.poses);
+      console.log(this.error);
     }
     if (this.draw) {
       this.poseDrawer.draw(this.poses);
