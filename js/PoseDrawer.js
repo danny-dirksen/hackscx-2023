@@ -66,9 +66,9 @@ class PosDrawer {
    * @returns [color (string), width (number)]
    */
   styleFromError(error) {
-    if(error >= 0 && error < 0.4){
+    if(error < 0.8){
       return ["white", 1];
-    } else if (error >= 0.4 && error < 0.7){
+    } else if (error < 1.8){
       return ["pink", 2];
     } else {
       return ["red", 3];

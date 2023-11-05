@@ -53,15 +53,21 @@ class Tracker {
       if(this.avgError >= 0 && this.avgError < 0.3) {
         text.textContent = "Perfect Form!";
         text.style.color = "light-green";
+        this.referenceTracker.video.play();
       } else if (this.avgError < 0.5){
         text.textContent = "Nice Form!";
         text.style.color = "white";
+        this.referenceTracker.video.play();
       } else if (this.avgError < 0.8){
         text.textContent = "OK...";
         text.style.color = "yellow";
+        // play video
+        this.referenceTracker.video.play();
       } else {
         text.textContent = "Keep Adjusting";
         text.style.color = "orange";
+        // pause video if they are too far off
+        this.referenceTracker.video.pause();
       }
     }
     if (this.draw) {

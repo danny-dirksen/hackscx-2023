@@ -60,7 +60,9 @@ function validpt(pt) {
 function calculateEdgeError(cp1, cp2, rp1, rp2) {
   const cAngle = calculateAngle(cp1, cp2);
   const rAngle = calculateAngle(rp1, rp2);
-  const error = Math.abs(cAngle - rAngle);
+  const diff = Math.abs(cAngle - rAngle);
+  const diffWrappable = Math.PI - Math.abs(Math.abs(diff) - Math.PI);
+  const error = diffWrappable
   return error;
 }
 
