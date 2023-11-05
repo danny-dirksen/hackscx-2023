@@ -1,47 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Workout</title>
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workout</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
 </head>
 <body>
-  <header></header>
-  <video autoplay="true" id="videoElement"></video>
+<header></header>
+<div style="position:relative">
+<video autoplay="true" id="videoElement"></video>
+<canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0;"></canvas>
+</div>
 
-  <script>
-    const video = document.querySelector("#videoElement");
-    
-    if (navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-          video.srcObject = stream;
-        })
-        .catch(function (error) {
-          console.log("Something went wrong:", error);
-        });
-    }
 
-    const runPosenet = async () => {
-      const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
-      // const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});
-      
-      async function estimatePose() {
-        const poses = await detector.estimatePoses(video);
-        console.log(poses);
-        requestAnimationFrame(estimatePose); // Continuously estimate poses
-      }
+<script>
+// Sleep method to load tfjs backend webgl properly
+const waitAndLoad = async ()=>{
+console.log('Start');
 
-      estimatePose();
-    }
 
-    runPosenet();
-  </script>
-  <script src="/js/loadFragments.js"></script>
+// Sleep for 2 seconds
+await sleep(2000);
+//runPosenet();
+console.log('End');
+}
+
+
+waitAndLoad();
+
+
+// Setup video and drawing canvas
+var MIN_SCORE = 0.4;
+var video = document.querySelector("#videoElement");
+var overlayCanvas = document.querySelector("#overlayCanvas");
+var overlayCtx;
+video.onloadedmetadata = function(e) {
+overlayCanvas.width = video.videoWidth;
+overlayCanvas.height = video.videoHeight;
+console.log(video.width);
+overlayCtx = overlayCanvas.getContext('2d');
+}
+if (navigator.mediaDevices.getUserMedia) {
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(function (stream) {
+video.srcObject = stream;
+})
+.catch(function (error) {
+console.log("Something went wrong!");
+});
+}
+
+
+// Setup Movenet
+const runMoveNet = async () => {
+//const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
+const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});
+async function estimatePose() {
+const poses = await detector.estimatePoses(video);
+console.log(poses);
+// Draw your poses on the overlayCanvas (example: connecting body parts with lines).
+if (overlayCtx) {
+overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+for (const pose of poses) {
+const keypoints = pose.keypoints;
+for (var i = 0; i < 1; i++) {
+overlayCtx.strokeStyle = '#FF0000'; // Red color
+overlayCtx.lineWidth = 3; // 3 pixels wide
+//overlayCtx.fillRect(keypoints[0].x-5,keypoints[0].y-5,10,10);
+overlayCtx.beginPath();
+// nose to left eye
+if (keypoints[0].score >= MIN_SCORE && keypoints[1].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[0].x, keypoints[0].y);
+overlayCtx.lineTo(keypoints[1].x, keypoints[1].y);
+}
+// nose to right eye
+if (keypoints[0].score >= MIN_SCORE && keypoints[2].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[0].x, keypoints[0].y);
+overlayCtx.lineTo(keypoints[2].x, keypoints[2].y);
+}
+// left eye to left ear
+if (keypoints[1].score >= MIN_SCORE && keypoints[3].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[1].x, keypoints[1].y);
+overlayCtx.lineTo(keypoints[3].x, keypoints[3].y);
+}
+// right eye to right ear
+if (keypoints[2].score >= MIN_SCORE && keypoints[4].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[2].x, keypoints[2].y);
+overlayCtx.lineTo(keypoints[4].x, keypoints[4].y);
+}
+// left shoulder to right shoulder
+if (keypoints[5].score >= MIN_SCORE && keypoints[6].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[5].x, keypoints[5].y);
+overlayCtx.lineTo(keypoints[6].x, keypoints[6].y);
+}
+// left shoulder to left elbow
+if (keypoints[5].score >= MIN_SCORE && keypoints[7].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[5].x, keypoints[5].y);
+overlayCtx.lineTo(keypoints[7].x, keypoints[7].y);
+}
+// right shoulder to right elbow
+if (keypoints[6].score >= MIN_SCORE && keypoints[8].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[6].x, keypoints[6].y);
+overlayCtx.lineTo(keypoints[8].x, keypoints[8].y);
+}
+// left elbow to left wrist
+if (keypoints[7].score >= MIN_SCORE && keypoints[9].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[7].x, keypoints[7].y);
+overlayCtx.lineTo(keypoints[9].x, keypoints[9].y);
+}
+// right elbow to right wrist
+if (keypoints[8].score >= MIN_SCORE && keypoints[10].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[8].x, keypoints[8].y);
+overlayCtx.lineTo(keypoints[10].x, keypoints[10].y);
+}
+// left shoulder to left hip
+if (keypoints[5].score >= MIN_SCORE && keypoints[11].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[5].x, keypoints[5].y);
+overlayCtx.lineTo(keypoints[11].x, keypoints[11].y);
+}
+// right shoulder to right hip
+if (keypoints[6].score >= MIN_SCORE && keypoints[12].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[6].x, keypoints[6].y);
+overlayCtx.lineTo(keypoints[12].x, keypoints[12].y);
+}
+// left hip and right hip
+if (keypoints[11].score >= MIN_SCORE && keypoints[12].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[11].x, keypoints[11].y);
+overlayCtx.lineTo(keypoints[12].x, keypoints[12].y);
+}
+// left hip to left knee
+if (keypoints[11].score >= MIN_SCORE && keypoints[13].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[11].x, keypoints[11].y);
+overlayCtx.lineTo(keypoints[13].x, keypoints[13].y);
+}
+// right hip to right knee
+if (keypoints[12].score >= MIN_SCORE && keypoints[14].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[12].x, keypoints[12].y);
+overlayCtx.lineTo(keypoints[14].x, keypoints[14].y);
+}
+// left knee to left ankle
+if (keypoints[13].score >= MIN_SCORE && keypoints[15].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[13].x, keypoints[13].y);
+overlayCtx.lineTo(keypoints[15].x, keypoints[15].y);
+}
+// right knee to right ankle
+if (keypoints[14].score >= MIN_SCORE && keypoints[16].score >= MIN_SCORE) {
+overlayCtx.moveTo(keypoints[14].x, keypoints[14].y);
+overlayCtx.lineTo(keypoints[16].x, keypoints[16].y);
+}
+overlayCtx.stroke();
+}
+}
+}
+requestAnimationFrame(estimatePose); // Continuously estimate poses
+}
+
+
+estimatePose();
+}
+
+
+runMoveNet();
+
+
+function sleep(ms) {
+return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+</script>
+<script src="/js/loadFragments.js"></script>
 </body>
 </html>
