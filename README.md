@@ -1,6 +1,8 @@
 # PerfectForm HackSC
 
-![Demo Video](./docs/mobile-demo.mp4)
+<video src="./docs/demo.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+<video src="./docs/demo-tips.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+<video src="./docs/demo-mobile.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
 
 # Project Name:
 
@@ -8,7 +10,7 @@ PerfectForm App
 
 # Elevator Pitch:
 
-Bad form can render your workout useless, put you at risk of short- and long-term injury, and give you an uncomfortable workout. PerfectForm uses computer vision to give you personalized, self-paced AI workout lessons. Our app uses pose-tracking to make sure that your form will give you the most out of your workout and the least problems. Get the perfect workout with PerfectForm.
+Bad form can render your workout useless, put you at risk of short- and long-term injury, and give you an uncomfortable workout. PerfectForm uses computer vision to give you personalized, self-paced AI workout lessons.
 
 # Project Story
 
