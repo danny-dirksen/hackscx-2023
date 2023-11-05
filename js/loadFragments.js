@@ -1,6 +1,6 @@
 const header = document.querySelector('header');
 if (header) {
-  fetch('/fragments/header.html')
+  fetch('/fragments/header.xml')
     .then(response => response.text())
     .then(data => {
       // Add string to beginning of document.body
