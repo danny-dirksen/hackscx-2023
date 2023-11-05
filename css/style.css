@@ -80,8 +80,8 @@ h2 {
 .width-constraint {
   height: 100%;
   margin: 0 auto;
-  padding: 1em;
-  max-width: 100rem;
+  padding: 1em 2em;
+  max-width: 70rem;
 }
 
 .gap {
