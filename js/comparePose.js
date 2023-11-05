@@ -1,4 +1,4 @@
-function comparePoses(currentPoses, referencePoses, MIN_SCORE) {
+function comparePoses(currentPoses, referencePoses) {
     // Check if there are no poses detected
     if (currentPoses.length === 0 || referencePoses.length === 0) {
       return "No Poses Detected"; // No similarity when no poses are detected

@@ -3,9 +3,11 @@ let detector = null;
 
 class Tracker {
   // Creates tracker and starts tracking.
-  constructor(video, canvas, draw=true) {
+  constructor(video, canvas, referenceTracker=null, draw=true) {
     this.video = video;
     this.canvas = canvas;
+    this.referenceTracker = referenceTracker;
+    this.error = 0;
     this.draw = draw;
   }
 
@@ -36,6 +38,10 @@ class Tracker {
   
   async tick() {
     this.poses = await detector.estimatePoses(this.video);
+    if (this.referenceTracker && this.referenceTracker.poses) {
+      this.error = comparePoses(this.poses, this.referenceTracker.poses);
+      console.log(this.error);
+    }
     if (this.draw) {
       this.poseDrawer.draw(this.poses);
     }
