@@ -9,6 +9,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
+  <script src="/js/comparePose.js" ></script>
 </head>
 <body>
   <header></header>
@@ -34,6 +35,11 @@
       async function estimatePose() {
         const poses = await detector.estimatePoses(video);
         console.log(poses);
+        const referencePoses = poses;
+
+        const comparisonResult = comparePoses(poses, poses);
+        console.log(comparisonResult);
+
         requestAnimationFrame(estimatePose); // Continuously estimate poses
       }
 
@@ -41,6 +47,7 @@
     }
 
     runPosenet();
+
   </script>
   <script src="/js/loadFragments.js"></script>
 </body>
