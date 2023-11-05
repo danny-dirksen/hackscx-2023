@@ -29,14 +29,16 @@ function comparePoses(currentPoses, referencePoses) {
     let totalAngleDifference = 0;
     let count = 0;  //counts the number of jointIndices it will calculate
 
+    let currentAngle = 0;
+    let referenceAngle = 0;
+
+
     for (const jointIndex of jointIndices) {
         let currentProb = currentKeypoints[jointIndex[0]].score >= MIN_SCORE && currentKeypoints[jointIndex[1]].score >= MIN_SCORE && currentKeypoints[jointIndex[2]].score >= MIN_SCORE;
         let referenceProb = referenceKeypoints[jointIndex[0]].score >= MIN_SCORE && referenceKeypoints[jointIndex[1]].score >= MIN_SCORE && referenceKeypoints[jointIndex[2]].score >= MIN_SCORE;
-        const currentAngle = 0;
-        const referenceAngle = 0;
         if (currentProb == 1 && referenceProb == 1){
-            const currentAngle = calculateAngle(currentKeypoints, jointIndex[0], jointIndex[1], jointIndex[2]);
-            const referenceAngle = calculateAngle(referenceKeypoints, jointIndex[0], jointIndex[1], jointIndex[2]);
+            currentAngle = calculateAngle(currentKeypoints, jointIndex[0], jointIndex[1], jointIndex[2]);
+            referenceAngle = calculateAngle(referenceKeypoints, jointIndex[0], jointIndex[1], jointIndex[2]);
             count++;
         }
         totalAngleDifference += Math.abs(currentAngle - referenceAngle);
@@ -47,12 +49,12 @@ function comparePoses(currentPoses, referencePoses) {
     const maxPossibleDifference = count * maxPossibleAngleDifference; // Define max possible difference
     // console.log("TotalAngleDiff: " + totalAngleDifference);
     // console.log("maxPoss: " + maxPossibleDifference);
-    // console.log("Divide: " + (totalAngleDifference / maxPossibleDifference))
-    const similarityScore = 0;
+    // console.log("Divide: " + (totalAngleDifference / maxPossibleDifference));
+    let similarityScore = 0;
     if (maxPossibleDifference != 0) {
-        const similarityScore = 1 - (totalAngleDifference / maxPossibleDifference);
+        similarityScore = 1 - (totalAngleDifference / maxPossibleDifference);
     }
-    // console.log("Print: " + similarityScore);
+    //console.log("Print: " + similarityScore);
   
     return similarityScore;
   }

@@ -7,7 +7,7 @@ class Tracker {
     this.video = video;
     this.canvas = canvas;
     this.referenceTracker = referenceTracker;
-    this.error = 0;
+    this.similarity = 0;
     this.draw = draw;
   }
 
@@ -43,8 +43,8 @@ class Tracker {
     if (this.referenceTracker && this.referenceTracker.poses) {
       console.log(this.poses);
       console.log(this.referenceTracker.poses)
-      this.error = comparePoses(this.poses, this.referenceTracker.poses);
-      console.log(this.error);
+      this.similarity = comparePoses(this.poses, this.referenceTracker.poses);
+      console.log(this.similarity);
     }
     if (this.draw) {
       this.poseDrawer.draw(this.poses);
