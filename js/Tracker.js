@@ -28,7 +28,7 @@ class Tracker {
     if (!detector) {
       detector = await poseDetection.createDetector(
         poseDetection.SupportedModels.MoveNet,
-        { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER }
+        { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER}
       );
     }
     await this.waitForVideoToLoad();
@@ -48,5 +48,9 @@ class Tracker {
       this.poseDrawer.draw(this.poses);
     }
     requestAnimationFrame(this.tick.bind(this)); // Continuously estimate poses
+  }
+
+  getError() {
+    return this.error;
   }
 }
