@@ -28,9 +28,10 @@
     }
 
     const runPosenet = async () =>{
-    const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
-    //const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});
-    const poses = await detector.estimatePoses(video);
+      const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet);
+      //const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER});
+      const poses = await detector.estimatePoses(video);
+      console.log(poses);
     }
     runPosenet();
 
