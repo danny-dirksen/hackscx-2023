@@ -43,7 +43,7 @@ function comparePoses(currentPoses, referencePoses, MIN_SCORE) {
     }
   
     // Normalize the total difference to a range between 0 and 1
-    const maxPossibleAngleDifference = 90;
+    const maxPossibleAngleDifference = 180;
     const maxPossibleDifference = count * maxPossibleAngleDifference; // Define max possible difference
     // console.log("TotalAngleDiff: " + totalAngleDifference);
     // console.log("maxPoss: " + maxPossibleDifference);
@@ -82,7 +82,7 @@ function comparePoses(currentPoses, referencePoses, MIN_SCORE) {
     const angleInRadians = Math.acos(cosine);
     const angleInDegrees = (angleInRadians * 180) / Math.PI;
 
-    console.log(angleInDegrees);
+    //console.log(angleInDegrees);
   
     return angleInDegrees;
   }
