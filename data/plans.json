@@ -16,5 +16,11 @@
     "name": "Killer Cardio",
     "description": "An intense cardio workout to get your heart pumping. Repeat as many times as you'd like to get a longer workout.",
     "workoutIds": [0, 1, 6, 7, 8, 9]
+  },
+  {
+    "planId": 3,
+    "name": "YOGA",
+    "description": "A quick energizing 10 minute standing yoga flow you can practice anywhere.",
+    "workoutIds": [10]
   }
 ]
