@@ -98,5 +98,14 @@
       "Explode upward with power during the jump and land with soft knees to reduce impact.",
       "Perform burpees at a pace that challenges you while maintaining proper technique throughout each repetition."
     ]
+  },
+  {
+    "workoutId": 10,
+    "name": "YOGA",
+    "description": "YOGA involves a combination of exercises. It's a high energizing yoga where it can be done anywhere without a yoga mat. Exercise that engages multiple muscle groups and is excellent for mental and endurance training.",
+    "tips": [
+      "Start with the basics of YOGA exercises and then builds upon it.",
+      "The exercises focuses on peple to be ablle to follow them successfully."
+    ]
   }
 ]

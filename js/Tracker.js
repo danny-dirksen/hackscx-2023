@@ -1,6 +1,5 @@
 // All trackers share the same detector. Initialized the first time its used.
 let detector = null;
-const smooth = 15;
 
 class Tracker {
   // Creates tracker and starts tracking.
@@ -8,7 +7,8 @@ class Tracker {
     this.video = video;
     this.canvas = canvas;
     this.referenceTracker = referenceTracker;
-    this.error = 0;
+    this.edgeErrors = null;
+    this.avgError = 0;
     this.draw = draw;
   }
 
@@ -37,40 +37,56 @@ class Tracker {
     this.tick();
   }
   
+  /**
+   * Runs every animation frame to detect pos, calculate errors, and render.
+   */
   async tick() {
-    var slider = document.getElementById("myRange");
-    this.video.playbackRate = slider.value / 100;
     this.poses = await detector.estimatePoses(this.video);
     if (this.referenceTracker && this.referenceTracker.poses) {
-      // console.log(this.poses);
-      // console.log(this.referenceTracker.poses)
-      this.error = (this.error*smooth + comparePoses(this.poses, this.referenceTracker.poses))/(smooth+1);
-      if (isNaN(this.error)) {
-        this.error = 0;
+      this.updateError(0.1);
+      
+      if (isNaN(this.avgError)) {
+        this.avgError = 0;
       }
-      console.log(this.error);
       // Get score from webcam error
       let text = document.getElementById("comparison-result");
-      if(this.error >= 0 && this.error < 0.4){
-        text.textContent = "Bad";
-        text.style.color = "red";
-      } else if(this.error >= 0.4 && this.error < 0.7){
-        text.textContent = "Ok";
-        text.style.color = "lightred";
-      } else if(this.error >= 0.7 && this.error < 0.85){
-        text.textContent = "Good";
+      if(this.avgError >= 0 && this.avgError < 0.3) {
+        text.textContent = "Perfect Form!";
+        text.style.color = "light-green";
+      } else if (this.avgError < 0.5){
+        text.textContent = "Nice Form!";
         text.style.color = "white";
-      } else if(this.error >= 0.85 && this.error < 0.95){
-        text.textContent = "Very Good";
-        text.style.color = "lightgreen";
-      } else if(this.error >= 0.95 && this.error <= 1.0){
-        text.textContent = "Prefect";
-        text.style.color = "green";
+      } else if (this.avgError < 0.8){
+        text.textContent = "OK...";
+        text.style.color = "yellow";
+      } else {
+        text.textContent = "Keep Adjusting";
+        text.style.color = "orange";
       }
     }
     if (this.draw) {
-      this.poseDrawer.draw(this.poses);
+      this.poseDrawer.draw(this.poses, this.edgeErrors);
     }
     requestAnimationFrame(this.tick.bind(this)); // Continuously estimate poses
+  }
+
+  /**
+   * Recalculates error, mixing the new error with the old error.
+   * @param {*} factor How much of the new error to mix in. 0 = no new error, 1 = all new error.
+   */
+  updateError(factor=1) {
+    const [newEdgeErrors, newAvgError] = calculateEdgeErrors(this.poses, this.referenceTracker.poses);
+    // If error can't be calculated, don't update error.
+    if (!newEdgeErrors || newAvgError === null) return;
+    // If this is the first time, just set the error.
+    if (!this.edgeErrors) {
+      this.edgeErrors = newEdgeErrors;
+      this.avgError = newAvgError;
+      return;
+    }
+    for (let i = 0; i < this.edgeErrors.length; i++) {
+      this.edgeErrors[i] = this.edgeErrors[i] * (1 - factor) + newEdgeErrors[i] * factor;
+    }
+    this.avgError = this.avgError * (1 - factor) + newAvgError * factor;
   }
 }

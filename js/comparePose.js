@@ -1,126 +1,110 @@
-function comparePoses(currentPoses, referencePoses) {
-    // Check if there are no poses detected
-    if (currentPoses.length === 0 || referencePoses.length === 0) {
-      return "No Poses Detected"; // No similarity when no poses are detected
-    }
-  
-    // // Assuming that both currentPoses and referencePoses contain normalized keypoints data
-    const currentPose = currentPoses[0]; // Assuming a single pose
-    const referencePose = referencePoses[0]; // Assuming a single reference pose
-  
-    // Calculate a similarity score based on the angles at corresponding joints
-    let similarityScore = calculatePoseSimilarity(currentPose.keypoints, referencePose.keypoints);
-  
-    return similarityScore;
-  }
-  
-  function calculatePoseSimilarity(currentKeypoints, referenceKeypoints) {
-
-    // console.log(currentKeypoints);
-    // console.log(referenceKeypoints);
-    // let dataCurrKeyPoints = [];
-    // let sumCurrProb = 0;
-    // let dataRefKeyPoints = [];
-    // let sumRefProb = 0;
-
-    // for (let keyPoint of currentKeypoints){
-    //     let data = l2NormalizeCam(keyPoint);
-    //     dataCurrKeyPoints.push(data[0]);
-    //     dataCurrKeyPoints.push(data[1]);
-    // }
-    // for (let keyPoint of currentKeypoints){
-    //     dataCurrKeyPoints.push(keyPoint.score);
-    //     sumCurrProb += keyPoint.score;
-    // }
-    // dataCurrKeyPoints.push(sumCurrProb);
-
-    // for (let keyPoint of referenceKeypoints){
-    //     let data = l2NormalizeRef(keyPoint);
-    //     dataRefKeyPoints.push(data[0]);
-    //     dataRefKeyPoints.push(data[1]);
-    // }
-    // for (let keyPoint of referenceKeypoints){
-    //     dataRefKeyPoints.push(keyPoint.score);
-    //     sumRefProb += keyPoint.score;
-    // }
-    // dataRefKeyPoints.push(sumRefProb);
-
-    //let similarityScore =  weightedDistanceMatching(dataCurrKeyPoints, dataRefKeyPoints);
-
-    // return similarityScore;
-
- 
-    // Implement a function to calculate the similarity score based on keypoints
-    // You'll need to compare corresponding joint angles and compute a similarity score
-  
-    // For example, you could calculate the mean absolute difference between joint angles
-    // and normalize it to a value between 0 and 1 (1 indicating perfect similarity)
-  
-    // Specify the joint indices you want to measure angles for (e.g., shoulder, elbow, and wrist)
-    const jointIndices = [[5, 7, 9], [6, 8, 10], [5, 11, 13], [6, 12, 14], [12, 14, 16], [11, 13, 15], [14, 12, 11], [13, 11, 12], [11, 5, 7], [12, 6, 8]];
-
-    const numKeypoints = Math.min(currentKeypoints.length, referenceKeypoints.length);
-    let totalAngleDifference = 0;
-    let count = 0;  //counts the number of jointIndices it will calculate
-
-    let currentAngle = 0;
-    let referenceAngle = 0;
-
-
-    for (const jointIndex of jointIndices) {
-        let currentProb = currentKeypoints[jointIndex[0]].score >= MIN_SCORE && currentKeypoints[jointIndex[1]].score >= MIN_SCORE && currentKeypoints[jointIndex[2]].score >= MIN_SCORE;
-        let referenceProb = referenceKeypoints[jointIndex[0]].score >= MIN_SCORE && referenceKeypoints[jointIndex[1]].score >= MIN_SCORE && referenceKeypoints[jointIndex[2]].score >= MIN_SCORE;
-        if (currentProb == 1 && referenceProb == 1){
-            currentAngle = calculateAngle(currentKeypoints, jointIndex[0], jointIndex[1], jointIndex[2]);
-            referenceAngle = calculateAngle(referenceKeypoints, jointIndex[0], jointIndex[1], jointIndex[2]);
-            count++;
-        }
-        totalAngleDifference += Math.abs(currentAngle - referenceAngle);
-    }
-  
-    // Normalize the total difference to a range between 0 and 1
-    const maxPossibleAngleDifference = 180;
-    const maxPossibleDifference = count * maxPossibleAngleDifference; // Define max possible difference
-    // console.log("TotalAngleDiff: " + totalAngleDifference);
-    // console.log("maxPoss: " + maxPossibleDifference);
-    // console.log("Divide: " + (totalAngleDifference / maxPossibleDifference));
-    let similarityScore = 0;
-    if (maxPossibleDifference != 0) {
-        similarityScore = 1 - (totalAngleDifference / maxPossibleDifference);
-    }
-    //console.log("Print: " + similarityScore);
-  
-    return similarityScore;
+/**
+ * Compares currentPoses with referencePoses and returns error metrics.
+ * @param {Array} currentPoses List of poses detected in the current frame.
+ * @param {Array} referencePoses List of poses detected in the reference frame.
+ * @returns {Array} [edge errors (Array of numbers), average error (number)]
+ */
+function calculateEdgeErrors(currentPoses, referencePoses) {
+  // Check if there are no poses detected
+  if (currentPoses.length === 0 || referencePoses.length === 0) {
+    return [null, null]; // No similarity when no poses are detected
   }
 
-   function calculateAngle(keypoints, index1, index2, index3) {
-    // Get the positions of the three keypoints
-    // console.log(keypoints);
-    const joint1 = keypoints[index1];
-    const joint2 = keypoints[index2];
-    const joint3 = keypoints[index3];
-  
-    // Calculate vectors between the keypoints
-    const vector1 = [joint1.x - joint2.x, joint1.y - joint2.y];
-    const vector2 = [joint3.x - joint2.x, joint3.y - joint2.y];
+  // Assuming that both currentPoses and referencePoses contain normalized keypoints data
+  const currentPts = currentPoses[0].keypoints; // Assuming a single pose
+  const referencePts = referencePoses[0].keypoints; // Assuming a single reference pose
 
-    // Calculate the dot product of the two vectors
-    const dotProduct = vector1[0] * vector2[0] + vector1[1] * vector2[1];
- 
-    // Calculate the magnitudes of the vectors
-    const magnitude1 = Math.sqrt(vector1[0] ** 2 + vector1[1] ** 2);
-    const magnitude2 = Math.sqrt(vector2[0] ** 2 + vector2[1] ** 2);
-  
-    // Calculate the cosine of the angle between the vectors
-    const cosine = dotProduct / (magnitude1 * magnitude2);
+  const edgeErrors = [];
+  let totalError = 0;
+  let numValidEdges = 0;
 
-    // Calculate the angle in radians and then convert it to degrees
-    const angleInRadians = Math.acos(cosine);
-    const angleInDegrees = (angleInRadians * 180) / Math.PI;
-    //console.log(angleInDegrees);
-  
-    return angleInDegrees;
-    }
+  // Calculate a similarity score based on the angles at corresponding joints
+  // let edgeErrors = calculateEdgeError(currentPts, referencePts);
+  for (let [i1, i2] of EDGES) {
+    const cp1 = currentPts[i1];
+    const cp2 = currentPts[i2];
+    const rp1 = referencePts[i1];
+    const rp2 = referencePts[i2];
+    // Don't count edges where one or both points are too uncertain.
+    if (!validpt(cp1) || !validpt(cp2) || !validpt(rp1) || !validpt(rp2)) continue;
+    const error = calculateEdgeError(cp1, cp2, rp1, rp2);
+    edgeErrors.push(error);
+    totalError += error;
+    numValidEdges++;
+  }
+  // No similarity when no valid edges are detected
+  if (numValidEdges == 0) {
+    return [null, null];
+  }
+  const avgError = totalError / numValidEdges;
+  return [ edgeErrors, avgError ];
+}
+
+/**
+ * Checks if point has high enough confidence to be considered valid
+ * @param {*} pt 
+ * @returns boolean indicating if point is valid
+ */
+function validpt(pt) {
+  return pt.score >= MIN_SCORE;
+}
+
+/**
+ * Given a pair of corresponding edges, calculate the error between the two angles.
+ * @param {Point} cp1 Vertex 1 of current pose edge
+ * @param {Point} cp2 Vertex 2 of current pose edge
+ * @param {Point} rp1 Vertex 1 of reference pose edge
+ * @param {Point} rp2 Vertex 2 of reference pose edge
+ * @returns 
+ */
+function calculateEdgeError(cp1, cp2, rp1, rp2) {
+  const cAngle = calculateAngle(cp1, cp2);
+  const rAngle = calculateAngle(rp1, rp2);
+  const error = Math.abs(cAngle - rAngle);
+  return error;
+}
+
+/**
+ * Given two points, calculate the angle of the vector between them.
+ * @param {Point} p1 
+ * @param {Point} p2 
+ * @returns The angle in radians.
+ */
+function calculateAngle(p1, p2) {
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const angle = Math.atan2(dy, dx);
+  return angle;
+}
+
+// function calculateJointAngle(keypoints, index1, index2, index3) {
+//   // Get the positions of the three keypoints
+//   // console.log(keypoints);
+//   const joint1 = keypoints[index1];
+//   const joint2 = keypoints[index2];
+//   const joint3 = keypoints[index3];
+
+//   // Calculate vectors between the keypoints
+//   const vector1 = [joint1.x - joint2.x, joint1.y - joint2.y];
+//   const vector2 = [joint3.x - joint2.x, joint3.y - joint2.y];
+
+//   // Calculate the dot product of the two vectors
+//   const dotProduct = vector1[0] * vector2[0] + vector1[1] * vector2[1];
+
+//   // Calculate the magnitudes of the vectors
+//   const magnitude1 = Math.sqrt(vector1[0] ** 2 + vector1[1] ** 2);
+//   const magnitude2 = Math.sqrt(vector2[0] ** 2 + vector2[1] ** 2);
+
+//   // Calculate the cosine of the angle between the vectors
+//   const cosine = dotProduct / (magnitude1 * magnitude2);
+
+//   // Calculate the angle in radians and then convert it to degrees
+//   const angleInRadians = Math.acos(cosine);
+//   const angleInDegrees = (angleInRadians * 180) / Math.PI;
+//   //console.log(angleInDegrees);
+
+//   return angleInDegrees;
+// }
 
 //   function l2NormalizeCam(vector) {
 //     var length = Math.sqrt((vector.x - camVideoTopLeftX) * (vector.x - camVideoTopLeftX) + (vector.y - camVideoTopLeftY) * (vector.y - camVideoTopLeftY));
