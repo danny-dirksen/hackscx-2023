@@ -45,14 +45,28 @@ class Tracker {
       // console.log(this.referenceTracker.poses)
       this.error = comparePoses(this.poses, this.referenceTracker.poses);
       console.log(this.error);
+      // Get score from webcam error
+      let text = document.getElementById("comparison-result");
+      if(this.error >= 0 && this.error < 0.2){
+        text.textContent = "Bad";
+        text.style.color = "red";
+      } else if(this.error >= 0.2 && this.error < 0.4){
+        text.textContent = "Ok";
+        text.style.color = "lightred";
+      } else if(this.error >= 0.4 && this.error < 0.6){
+        text.textContent = "Good";
+        text.style.color = "white";
+      } else if(this.error >= 0.6 && this.error < 0.8){
+        text.textContent = "Very Good";
+        text.style.color = "lightgreen";
+      } else if(this.error >= 0.8 && this.error <= 1.0){
+        text.textContent = "Prefect";
+        text.style.color = "green";
+      }
     }
     if (this.draw) {
       this.poseDrawer.draw(this.poses);
     }
     requestAnimationFrame(this.tick.bind(this)); // Continuously estimate poses
-  }
-
-  getError() {
-    return this.error;
   }
 }
