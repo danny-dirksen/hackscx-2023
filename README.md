@@ -1,8 +1,7 @@
 # PerfectForm HackSC
 
-<video src="./docs/demo.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
-<video src="./docs/demo-tips.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
-<video src="./docs/demo-mobile.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+
+<video src="./docs/demo.mp4" controls="controls" width=200></video> <video src="./docs/demo-tips.mp4" controls="controls" width=200></video> <video src="./docs/demo-mobile.mp4" controls="controls" width=200></video>
 
 # Project Name:
 
