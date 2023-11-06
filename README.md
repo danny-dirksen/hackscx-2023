@@ -1,8 +1,6 @@
 # PerfectForm HackSC
 
-<video src="./docs/demo.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
-<video src="./docs/demo-tips.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
-<video src="./docs/demo-mobile.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+Demo:
 
 # Project Name:
 
@@ -58,3 +56,7 @@ Our webapp prototype is built statically with vanilla JS/HTML/CSS, with real-tim
 ## Video demo link:
 
 [https://github.com/danny-dirksen/hackscx-2023](https://github.com/danny-dirksen/hackscx-2023)
+
+<video src="./docs/demo.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+<video src="./docs/demo-tips.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+<video src="./docs/demo-mobile.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
