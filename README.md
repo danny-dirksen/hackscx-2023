@@ -1,6 +1,8 @@
 # PerfectForm HackSC
 
-Demo:
+<video src="./docs/demo.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+<video src="./docs/demo-tips.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
+<video src="./docs/demo-mobile.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
 
 # Project Name:
 
@@ -52,11 +54,3 @@ In this project we all learned several things however the few important things w
 In terms of the next thing for the project, we were thinking about how it would be great to implement the same application but in the VR world. Through that we would be able to have 3d models of the gym trainer so the user is able to accurately follow the trainer. We would be able to create an environment that would be ideal for users to work in. 
 Built with:
 Our webapp prototype is built statically with vanilla JS/HTML/CSS, with real-time AI functionality implemented using MoveNet viaTensorflow.js.
-
-## Video demo link:
-
-[https://github.com/danny-dirksen/hackscx-2023](https://github.com/danny-dirksen/hackscx-2023)
-
-<video src="./docs/demo.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
-<video src="./docs/demo-tips.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
-<video src="./docs/demo-mobile.mp4" controls="controls" style="display:inline-block;max-width: 200px;"></video>
